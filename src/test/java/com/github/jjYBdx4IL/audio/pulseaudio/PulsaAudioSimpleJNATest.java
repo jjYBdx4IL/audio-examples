@@ -29,7 +29,10 @@ public class PulsaAudioSimpleJNATest extends AudioInputOutputBase {
         e3ref.channels = 2;
 
         Pointer paSimple = PulsaAudioSimpleLibrary.INSTANCE.pa_simple_new(null, "testclient",
-                StreamDirection.PA_STREAM_RECORD.ordinal(), null, "record stream", e3ref, null, null, null);
+                StreamDirection.PA_STREAM_RECORD.ordinal(),
+                // use "pactl list" to find your monitor's name:
+                "alsa_output.pci-0000_00_1b.0.analog-stereo.monitor",
+                "record stream", e3ref, null, null, null);
         assertNotNull(paSimple);
 
         SourceDataLine outputLine = getOutputLine();
