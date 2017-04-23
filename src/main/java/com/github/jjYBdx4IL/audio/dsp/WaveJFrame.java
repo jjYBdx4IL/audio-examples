@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -38,14 +39,11 @@ public class WaveJFrame extends JFrame implements Runnable {
         this.drawingAreaHeight = pixels;
     }
 
-    public void go() {
-        SwingUtilities.invokeLater(this);
-    }
-
     @Override
     public void run() {
         if (!SwingUtilities.isEventDispatchThread()) {
-            throw new RuntimeException();
+            SwingUtilities.invokeLater(this);
+            return;
         }
 
         Container pane = getContentPane();
@@ -82,8 +80,4 @@ public class WaveJFrame extends JFrame implements Runnable {
         setVisible(true);
     }
 
-    public static void viz(float[] data, int channels) throws InterruptedException, InvocationTargetException {
-        WaveJFrame frame = new WaveJFrame(data, channels);
-        frame.go();
-    }
 }

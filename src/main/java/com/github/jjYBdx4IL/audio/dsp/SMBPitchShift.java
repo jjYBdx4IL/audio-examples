@@ -229,16 +229,16 @@ public class SMBPitchShift {
 	passed as {in[0],0.,in[1],0.,in[2],0.,...} asf. In that case, the transform
 	of the frequencies of interest is in fftBuffer[0...fftFrameSize].
 */
-{
-	//float wr, wi, arg, *p1, *p2, temp;
+    {
+        //float wr, wi, arg, *p1, *p2, temp;
         float wr, wi, arg, temp;
         int p1, p2;
-	//float tr, ti, ur, ui, *p1r, *p1i, *p2r, *p2i;
+    	//float tr, ti, ur, ui, *p1r, *p1i, *p2r, *p2i;
         float tr, ti, ur, ui;
         int p1r, p1i, p2r, p2i;
-	int i, bitm, j, le, le2, k;
+        int i, bitm, j, le, le2, k;
 
-	for (i = 2; i < 2*fftFrameSize-2; i += 2) {
+        for (i = 2; i < 2*fftFrameSize-2; i += 2) {
             for (bitm = 2, j = 0; bitm < 2*fftFrameSize; bitm <<= 1) {
                 if ((i & bitm) != 0) j++;
                 j <<= 1;
@@ -258,8 +258,8 @@ public class SMBPitchShift {
                 fftBuffer[p1] = fftBuffer[p2];
                 fftBuffer[p2] = temp;
             }
-	}
-	for (k = 0, le = 2; k < (long)(Math.log(fftFrameSize)/Math.log(2.)+.5); k++) {
+        }
+        for (k = 0, le = 2; k < (long)(Math.log(fftFrameSize)/Math.log(2.)+.5); k++) {
             le <<= 1;
             le2 = le>>1;
             ur = 1f;
@@ -289,7 +289,7 @@ public class SMBPitchShift {
                 ui = ur*wi + ui*wr;
                 ur = tr;
             }
-	}
+        }
     }
 
 

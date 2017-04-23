@@ -19,7 +19,7 @@ public class WaveJFrameTest {
             data[i] = (float) (Math.sin(i / 100f) * absMax);
             data[i+1] = (float) (Math.cos(i / 100f) * absMax);
         }
-        WaveJFrame.viz(data, 2);
+        new WaveJFrame(data, 2).run();
         Thread.sleep(10000);
     }
 

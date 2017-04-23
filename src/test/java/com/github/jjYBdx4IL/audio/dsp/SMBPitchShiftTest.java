@@ -32,7 +32,7 @@ public class SMBPitchShiftTest {
             vizdata[2 * i] = indata[i];
             vizdata[2 * i + 1] = outdata[i];
         }
-        WaveJFrame.viz(vizdata, 2);
+        new WaveJFrame(vizdata, 2).run();
         Thread.sleep(10000);
     }
 
