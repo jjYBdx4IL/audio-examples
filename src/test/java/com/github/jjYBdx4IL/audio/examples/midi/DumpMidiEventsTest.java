@@ -24,7 +24,7 @@ public class DumpMidiEventsTest {
     @Test
     public void testDumpMidiEvents() throws MidiUnavailableException, InterruptedException {
         // interactive test that needs adjuestments according to your own midi setup, ie. the device selection
-        Assume.assumeTrue(Surefire.isSingleTextExecution());
+        Assume.assumeTrue(Surefire.isSingleTestExecution());
         
         MidiDevice dev = null;
         

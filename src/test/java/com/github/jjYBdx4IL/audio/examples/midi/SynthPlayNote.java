@@ -48,7 +48,7 @@ public class SynthPlayNote {
 
     @Test
     public void testPlayNoteViaSynth() throws Exception {
-        Assume.assumeTrue(Surefire.isSingleTextExecution());
+        Assume.assumeTrue(Surefire.isSingleTestExecution());
 
         Synthesizer syn = MidiSystem.getSynthesizer();
         LOG.info("synth: " + syn.getDeviceInfo());
@@ -72,7 +72,7 @@ public class SynthPlayNote {
     // Idea from http://www.informit.com/articles/article.aspx?p=20457
     @Test
     public void testSeashore() throws Exception {
-        Assume.assumeTrue(Surefire.isSingleTextExecution());
+        Assume.assumeTrue(Surefire.isSingleTestExecution());
 
         Synthesizer syn = MidiSystem.getSynthesizer();
         syn.open();
