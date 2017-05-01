@@ -3,6 +3,7 @@ package com.github.jjYBdx4IL.audio.jitsi;
 import static org.jitsi.impl.neomedia.jmfext.media.protocol.wasapi.WASAPI.IAudioClient_GetBufferSize;
 import static org.jitsi.impl.neomedia.jmfext.media.protocol.wasapi.WASAPI.IAudioClient_GetCurrentPadding;
 import static org.jitsi.impl.neomedia.jmfext.media.protocol.wasapi.WASAPI.IAudioClient_GetDefaultDevicePeriod;
+import static org.jitsi.impl.neomedia.jmfext.media.protocol.wasapi.WASAPI.IAudioClient_GetMinimumDevicePeriod;
 import static org.jitsi.impl.neomedia.jmfext.media.protocol.wasapi.WASAPI.IAudioClient_GetService;
 import static org.jitsi.impl.neomedia.jmfext.media.protocol.wasapi.WASAPI.IID_IAudioRenderClient;
 import static org.junit.Assert.assertFalse;
@@ -95,6 +96,8 @@ public class JitsiTest {
                 DataFlow.PLAYBACK, 0, 0, 2, new AudioFormat[]{format});
         assertFalse(iAudioClient == 0);
         
+        
+        
         long iAudioRenderClient = IAudioClient_GetService(iAudioClient, IID_IAudioRenderClient);
         assertFalse(iAudioRenderClient == 0);
         
@@ -104,7 +107,73 @@ public class JitsiTest {
         int numPaddingFrames = IAudioClient_GetCurrentPadding(iAudioClient);
         LOG.info("numPaddingFrames: " + numPaddingFrames);
         
-        long devicePeriod = IAudioClient_GetDefaultDevicePeriod(iAudioClient) / 10000L;
+        long devicePeriodMS = IAudioClient_GetDefaultDevicePeriod(iAudioClient) / 10000L;
+        LOG.info("default device period (ms): " + devicePeriodMS);
 
+        long minDevicePeriodMS = IAudioClient_GetMinimumDevicePeriod(iAudioClient) / 10000L;
+        LOG.info("minimum device period (ms): " + minDevicePeriodMS);
+        
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
