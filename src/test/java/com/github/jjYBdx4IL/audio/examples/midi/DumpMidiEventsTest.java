@@ -31,7 +31,7 @@ public class DumpMidiEventsTest {
         for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
             LOG.info(String.format(Locale.ROOT, "%s/%s/%s/%s",
                     info.getVendor(), info.getName(), info.getVersion(), info.getDescription()));
-            if ("2- UM-ONE".equals(info.getName()) && !"External MIDI Port".equals(info.getDescription())) {
+            if (info.getName().contains("UM-ONE") && !"External MIDI Port".equals(info.getDescription())) {
                 dev = MidiSystem.getMidiDevice(info);
             }
         }
