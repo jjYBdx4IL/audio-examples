@@ -1,7 +1,13 @@
 package com.github.jjYBdx4IL.audio.dsp;
 
 import org.junit.Test;
+
+import java.awt.GraphicsEnvironment;
+
 import static org.junit.Assert.*;
+import static org.junit.Assume.assumeFalse;
+
+import org.junit.Before;
 import org.junit.Ignore;
 
 /**
@@ -10,6 +16,11 @@ import org.junit.Ignore;
  */
 public class SMBPitchShiftTest {
 
+    @Before
+    public void before() {
+        assumeFalse(GraphicsEnvironment.isHeadless());
+    }
+    
     /**
      * Test of smbPitchShift method, of class SMBPitchShift.
      */

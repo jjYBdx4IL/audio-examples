@@ -1,3 +1,16 @@
 language: java
+before_install:
+  - sudo apt-get -qq update
+  - apt-cache search portaudio
+  - sudo apt-get install -y portaudio19-dev
+  - git clone https://github.com/jjYBdx4IL/misc
+  - mvn install -f misc/release-parent >& log || tail -n1000 log
+  - mvn install -f misc -DskipTests -DskipITs >& log || tail -n1000 log
+  - git clone https://github.com/jjYBdx4IL/portaudio-bindings-repack.git
+  - mvn clean install -DskipTests -f portaudio-bindings-repack
+  - git clone https://github.com/jjYBdx4IL/jsyn-repack.git
+  - mvn clean install -DskipTests -f jsyn-repack
+install: true
+script: mvn -B install
 jdk:
   - oraclejdk8

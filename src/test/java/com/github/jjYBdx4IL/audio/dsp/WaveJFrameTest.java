@@ -1,6 +1,11 @@
 package com.github.jjYBdx4IL.audio.dsp;
 
+import static org.junit.Assume.assumeFalse;
+
+import org.junit.Before;
 import org.junit.Test;
+
+import java.awt.GraphicsEnvironment;
 
 /**
  *
@@ -8,6 +13,11 @@ import org.junit.Test;
  */
 public class WaveJFrameTest {
 
+    @Before
+    public void before() {
+        assumeFalse(GraphicsEnvironment.isHeadless());
+    }
+    
     /**
      * Test of viz method, of class WaveJFrame.
      */

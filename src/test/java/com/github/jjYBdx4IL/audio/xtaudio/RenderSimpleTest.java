@@ -1,8 +1,12 @@
 package com.github.jjYBdx4IL.audio.xtaudio;
 
 import static org.junit.Assert.*;
+import static org.junit.Assume.assumeFalse;
 
+import org.junit.Before;
 import org.junit.Test;
+
+import java.awt.GraphicsEnvironment;
 
 import com.xtaudio.xt.XtAudio;
 import com.xtaudio.xt.XtBuffer;
@@ -34,6 +38,11 @@ public class RenderSimpleTest {
             }
             ((float[]) output)[f] = (float) Math.sin(phase * Math.PI);
         }
+    }
+    
+    @Before
+    public void before() {
+        assumeFalse(GraphicsEnvironment.isHeadless());
     }
     
     @Test
