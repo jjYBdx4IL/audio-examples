@@ -15,9 +15,9 @@ import javax.sound.midi.Transmitter;
  *
  * @author jjYBdx4IL
  */
-public class DumpMidiEventsTest {
+public class DumpMidiEventsMain {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DumpMidiEventsTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DumpMidiEventsMain.class);
 
     public static void main(String[] args) throws Exception {
 

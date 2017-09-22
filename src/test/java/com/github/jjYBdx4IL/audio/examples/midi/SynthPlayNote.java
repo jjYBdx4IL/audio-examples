@@ -57,6 +57,7 @@ public class SynthPlayNote {
 
         // violin
         setInstrumentByName(mc, "Violin");
+        mc.noteOn(55, 127);
         mc.noteOn(60, 127);
         Thread.sleep(1000L);
         mc.allNotesOff();

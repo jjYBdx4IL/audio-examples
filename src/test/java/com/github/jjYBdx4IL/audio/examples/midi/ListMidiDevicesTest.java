@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author jjYBdx4IL
  */
-public class DeviceSelectionTest {
+public class ListMidiDevicesTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DeviceSelectionTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ListMidiDevicesTest.class);
 
     @Test
     public void testListMIDIDevices() {
