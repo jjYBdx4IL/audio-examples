@@ -1,9 +1,7 @@
 package com.github.jjYBdx4IL.audio.examples.midi;
 
 import com.github.jjYBdx4IL.audio.midi.DevSelUtils;
-import com.github.jjYBdx4IL.audio.midi.MidiLoggerReceiver;
 import com.github.jjYBdx4IL.parser.midi.MidiMessageParser;
-import com.github.jjYBdx4IL.parser.midi.events.ProgramChangeMsg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,30 +30,32 @@ public class SequencerExampleMain implements MetaEventListener {
 
         Sequence sequence = MidiSystem.getSequence(new File(getClass().getResource("swallows.mid").toURI()));
         dumpInfo(sequence);
-        sequence = MidiMessageParser.remapChannels(sequence, 0);
-        
+        sequence = MidiMessageParser.compactAndDuplicateChannels(sequence, 4);
+
         Sequencer sequencer = MidiSystem.getSequencer(false);
-        MidiDevice outdev = DevSelUtils.getHwOutDevice();
+
+        MidiDevice outdev = DevSelUtils.getMidiOutDeviceHwVirtSw();
         outdev.open();
         Receiver receiver = outdev.getReceiver();
+//        MidiChannelRemapper mapper = new MidiChannelRemapper(receiver);
+//        mapper.mapAllTo(0, 3);
         sequencer.getTransmitter().setReceiver(receiver);
-        
-        
-        receiver.send(ProgramChangeMsg.create(0, 4), outdev.getMicrosecondPosition());
-        
 
-        sequencer.getTransmitter().setReceiver(new MidiLoggerReceiver());
+        // sequencer.getTransmitter().setReceiver(new MidiLoggerReceiver());
 
         sequencer.open();
         sequencer.addMetaEventListener(this);
 
         sequencer.setSequence(sequence);
+        sequencer.setTempoFactor(2.0f);
+        sequencer.setLoopCount(1000);
         sequencer.start();
-//        while (sequencer.isRunning()) {
-            Thread.sleep(5000L);
-//        }
+        while (sequencer.isRunning()) {
+            Thread.sleep(500L);
+        }
         sequencer.stop();
         sequencer.close();
+
         outdev.close();
     }
 

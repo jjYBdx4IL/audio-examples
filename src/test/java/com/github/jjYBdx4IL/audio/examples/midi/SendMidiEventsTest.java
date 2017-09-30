@@ -2,7 +2,9 @@ package com.github.jjYBdx4IL.audio.examples.midi;
 
 import com.github.jjYBdx4IL.audio.midi.DevSelUtils;
 import com.github.jjYBdx4IL.parser.midi.events.AllNotesOffMsg;
+import com.github.jjYBdx4IL.parser.midi.events.ControlChangeMsg;
 import com.github.jjYBdx4IL.parser.midi.events.NoteOnMsg;
+import com.github.jjYBdx4IL.parser.midi.events.ProgramChangeMsg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,35 +28,47 @@ public class SendMidiEventsTest {
     }
     
     public void run() throws Exception {
-        dev = DevSelUtils.getHwOutDevice();
+        dev = DevSelUtils.getMidiOutDeviceHwVirtSw();
         receiver = dev.getReceiver();
 
         dev.open();
         LOG.info("" + dev.getMicrosecondPosition());
         
-        send(NoteOnMsg.create(0, "C3", 120));
-        send(NoteOnMsg.create(0, "E3", 120));
-        send(NoteOnMsg.create(0, "G3", 120));
-        send(NoteOnMsg.create(0, "C4", 120));
-        send(NoteOnMsg.create(0, "E4", 120));
-        send(NoteOnMsg.create(0, "G4", 120));
-        send(NoteOnMsg.create(0, "C5", 120));
-        send(NoteOnMsg.create(0, "E5", 120));
-        send(NoteOnMsg.create(0, "G5", 120));
-        Thread.sleep(1L * 1000L);
-        send(AllNotesOffMsg.create(0));
+        int channel = 0;
         
-        send(NoteOnMsg.create(0, "d3", 120));
-        send(NoteOnMsg.create(0, "f3", 120));
-        send(NoteOnMsg.create(0, "a3", 120));
-        send(NoteOnMsg.create(0, "d4", 120));
-        send(NoteOnMsg.create(0, "f4", 120));
-        send(NoteOnMsg.create(0, "a4", 120));
-        send(NoteOnMsg.create(0, "d5", 120));
-        send(NoteOnMsg.create(0, "f5", 120));
-        send(NoteOnMsg.create(0, "a5", 120));
+        send(ProgramChangeMsg.create(0, 5));
+        send(ProgramChangeMsg.create(1, 5));
+        send(ProgramChangeMsg.create(2, 5));
+        send(ProgramChangeMsg.create(3, 5));
+        send(ControlChangeMsg.create(0, 64, 64));
+        
+        
+        send(NoteOnMsg.create(channel, "C3", 120));
+        send(NoteOnMsg.create(channel, "E3", 120));
+        send(NoteOnMsg.create(channel, "G3", 120));
+        send(NoteOnMsg.create(channel, "C4", 120));
+        send(NoteOnMsg.create(channel, "E4", 120));
+        send(NoteOnMsg.create(channel, "G4", 120));
+        send(NoteOnMsg.create(channel, "C5", 120));
+        send(NoteOnMsg.create(channel, "E5", 120));
+        send(NoteOnMsg.create(channel, "G5", 120));
         Thread.sleep(1L * 1000L);
         send(AllNotesOffMsg.create(0));
+
+        
+        
+        send(NoteOnMsg.create(channel, "d3", 120));
+        send(NoteOnMsg.create(channel, "f3", 120));
+        send(NoteOnMsg.create(channel, "a3", 120));
+        send(NoteOnMsg.create(channel, "d4", 120));
+        send(NoteOnMsg.create(channel, "f4", 120));
+        send(NoteOnMsg.create(channel, "a4", 120));
+        send(NoteOnMsg.create(channel, "d5", 120));
+        send(NoteOnMsg.create(channel, "f5", 120));
+        send(NoteOnMsg.create(channel, "a5", 120));
+        Thread.sleep(1L * 1000L);
+        send(AllNotesOffMsg.create(0));
+        send(ControlChangeMsg.create(0, 64, 0));
         
         LOG.info("" + dev.getMicrosecondPosition());
     }
