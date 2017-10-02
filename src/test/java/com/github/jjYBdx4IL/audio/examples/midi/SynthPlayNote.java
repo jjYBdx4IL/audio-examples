@@ -2,18 +2,17 @@ package com.github.jjYBdx4IL.audio.examples.midi;
 
 import com.github.jjYBdx4IL.audio.midi.DevSelUtils;
 import com.github.jjYBdx4IL.utils.env.Surefire;
-import java.io.File;
-import javax.sound.midi.Instrument;
-import javax.sound.midi.MidiChannel;
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Synthesizer;
-
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.sound.midi.Instrument;
+import javax.sound.midi.MidiChannel;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Synthesizer;
 
 /**
  *

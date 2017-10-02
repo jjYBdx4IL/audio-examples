@@ -15,6 +15,7 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Soundbank;
 import javax.sound.midi.Synthesizer;
+import javax.sound.midi.Transmitter;
 
 public class DevSelUtils {
 
@@ -62,7 +63,11 @@ public class DevSelUtils {
     }
 
     public static MidiDevice getHwOutDevice() throws MidiUnavailableException {
-        return getMidiOutDeviceByName("(?!.*(virmidi|gervill))");
+        return getMidiOutDeviceByName("(?!.*(virmidi|gervill)).*");
+    }
+    
+    public static MidiDevice getHwInDevice() throws MidiUnavailableException {
+        return getMidiInDeviceByName("(?!.*(virmidi|gervill)).*");
     }
     
     // use snd-virmidi module on linux to interoperate with JACK and other software MIDI devices
@@ -83,11 +88,10 @@ public class DevSelUtils {
             }
             try {
                 MidiDevice dev = MidiSystem.getMidiDevice(info);
-                try {
-                    dev.getTransmitter(); // is input device (catches the java sequencer)
+                if (dev.getMaxTransmitters() != 0) {
                     continue;
-                } catch (MidiUnavailableException ex) {}
-                if (dev.getReceiver() != null) {
+                }
+                if (dev.getMaxReceivers() != 0) {
                     LOG.info("out device selected: " + toString(info));
                     return dev;
                 }
@@ -95,6 +99,32 @@ public class DevSelUtils {
             }
         }
         throw new MidiUnavailableException("midi out device not found: " + regex);
+    }
+    
+    public static MidiDevice getMidiInDeviceByName(String regex) throws MidiUnavailableException {
+        if (regex == null) {
+            throw new IllegalArgumentException("midi in device name must not be null");
+        }
+        for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(toString(info));
+            }
+            if (!info.getName().toLowerCase().matches(regex)) {
+                continue;
+            }
+            try {
+                MidiDevice dev = MidiSystem.getMidiDevice(info);
+                if (dev.getMaxReceivers() != 0) {
+                    continue;
+                }
+                if (dev.getMaxTransmitters() != 0) {
+                    LOG.info("in device selected: " + toString(info));
+                    return dev;
+                }
+            } catch (MidiUnavailableException ex) {
+            }
+        }
+        throw new MidiUnavailableException("midi in device not found: " + regex);
     }
     
     /**

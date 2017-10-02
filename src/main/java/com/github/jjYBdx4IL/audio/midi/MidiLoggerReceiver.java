@@ -20,7 +20,7 @@ public class MidiLoggerReceiver implements Receiver {
     }
     
     public void send(MidiMessage msg, long timeStamp) {
-        LOG.info(MidiMessageParser.toString(msg));
+        LOG.info(String.format("%,d: %s", timeStamp, MidiMessageParser.toString(msg)));
     }
 
     @Override

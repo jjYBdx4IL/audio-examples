@@ -3,7 +3,6 @@ package com.github.jjYBdx4IL.audio.examples.midi;
 import com.github.jjYBdx4IL.audio.midi.DevSelUtils;
 import com.github.jjYBdx4IL.audio.midi.MidiLoggerReceiver;
 import com.github.jjYBdx4IL.parser.midi.MidiMessageParser;
-import com.github.jjYBdx4IL.parser.midi.events.AllNotesOffMsg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,60 +14,48 @@ import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Patch;
-import javax.sound.midi.Receiver;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.Track;
 
-public class SequencerExampleMain implements MetaEventListener {
+public class SequencerRecordExampleMain implements MetaEventListener {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SequencerExampleMain.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SequencerRecordExampleMain.class);
 
     public static void main(String[] args) throws Exception {
-        new SequencerExampleMain().run();
+        new SequencerRecordExampleMain().run();
     }
 
     public void run() throws Exception {
-
-        Sequence sequence = MidiSystem.getSequence(new File(getClass().getResource("swallows.mid").toURI()));
-//        sequence = MidiSystem.getSequence(new File("record.mid"));
-        dumpInfo(sequence);
-         sequence = MidiMessageParser.compactAndDuplicateChannels(sequence,
-         4);
-//        sequence = MidiMessageParser.remapChannels(sequence, 0);
-
         Sequencer sequencer = MidiSystem.getSequencer(false);
 
-        MidiDevice outdev = DevSelUtils.getMidiOutDeviceHwVirtSw();
-        outdev = DevSelUtils.getHwOutDevice();
-        outdev.open();
-        Receiver receiver = outdev.getReceiver();
-
-        receiver.send(AllNotesOffMsg.create(0), outdev.getMicrosecondPosition());
-        receiver.send(AllNotesOffMsg.create(1), outdev.getMicrosecondPosition());
-        receiver.send(AllNotesOffMsg.create(2), outdev.getMicrosecondPosition());
-        receiver.send(AllNotesOffMsg.create(3), outdev.getMicrosecondPosition());
-
-        // MidiChannelRemapper mapper = new MidiChannelRemapper(receiver);
-        // mapper.mapAllTo(0, 3);
-        sequencer.getTransmitter().setReceiver(receiver);
-
         sequencer.getTransmitter().setReceiver(new MidiLoggerReceiver());
+        
+        MidiDevice indev = DevSelUtils.getHwInDevice();
+        indev.open();
+        indev.getTransmitter().setReceiver(sequencer.getReceiver());;
 
+        Sequence sequence = new Sequence(Sequence.PPQ, 10, 4);
+        
         sequencer.open();
         sequencer.addMetaEventListener(this);
 
         sequencer.setSequence(sequence);
-        sequencer.setTempoFactor(2.0f);
-        sequencer.setLoopCount(1000);
-        sequencer.start();
+        sequencer.recordEnable(sequence.getTracks()[0], 0);
+        sequencer.recordEnable(sequence.getTracks()[1], 1);
+        sequencer.recordEnable(sequence.getTracks()[2], 2);
+        sequencer.recordEnable(sequence.getTracks()[3], 3);
+        sequencer.startRecording();
         while (System.in.available() == 0) {
             Thread.sleep(500L);
         }
         sequencer.stop();
         sequencer.close();
 
-        outdev.close();
+        indev.close();
+        
+        MidiSystem.write(sequence, 1, new File("record.mid"));
+        LOG.info("done.");
     }
 
     @Override
