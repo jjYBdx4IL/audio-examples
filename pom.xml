@@ -26,8 +26,8 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <url>https://web.archive.org/web/20161023123616/http://xt-audio.com/dist/xt-audio-1.0.4.zip</url>
-                            <sha1>cdb85a4ffc71fb4b7f9b13422605054544880b4e</sha1>
+                            <url>https://sjoerdvankreel.github.io/xt-audio/dist/xt-audio-1.0.5.zip</url>
+                            <sha1>73e4a43c6d905d85643732e812ae01edfd401da7</sha1>
                             <unpack>true</unpack>
                             <outputDirectory>${project.build.directory}/unpacked-bins</outputDirectory>
                         </configuration>
