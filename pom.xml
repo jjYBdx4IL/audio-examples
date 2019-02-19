@@ -26,7 +26,7 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <url>http://xt-audio.com/dist/xt-audio-1.0.4.zip</url>
+                            <url>https://web.archive.org/web/20161023123616/http://xt-audio.com/dist/xt-audio-1.0.4.zip</url>
                             <sha1>cdb85a4ffc71fb4b7f9b13422605054544880b4e</sha1>
                             <unpack>true</unpack>
                             <outputDirectory>${project.build.directory}/unpacked-bins</outputDirectory>
@@ -159,7 +159,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.10.3</version>
+                    <version>3.0.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
