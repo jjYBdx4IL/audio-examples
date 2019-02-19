@@ -33,14 +33,14 @@ public class SequencerExampleMain implements MetaEventListener {
         Sequence sequence = MidiSystem.getSequence(new File(getClass().getResource("swallows.mid").toURI()));
 //        sequence = MidiSystem.getSequence(new File("record.mid"));
         dumpInfo(sequence);
-         sequence = MidiMessageParser.compactAndDuplicateChannels(sequence,
-         4);
+         sequence = MidiMessageParser.compactAndDuplicateChannels(sequence, 4);
 //        sequence = MidiMessageParser.remapChannels(sequence, 0);
 
         Sequencer sequencer = MidiSystem.getSequencer(false);
 
-        MidiDevice outdev = DevSelUtils.getMidiOutDeviceHwVirtSw();
-        outdev = DevSelUtils.getHwOutDevice();
+        //MidiDevice outdev = DevSelUtils.getMidiOutDeviceHwVirtSw();
+        MidiDevice outdev = DevSelUtils.getVirMidiOutDevice();
+//        outdev = DevSelUtils.getHwOutDevice();
         outdev.open();
         Receiver receiver = outdev.getReceiver();
 
@@ -59,7 +59,7 @@ public class SequencerExampleMain implements MetaEventListener {
         sequencer.addMetaEventListener(this);
 
         sequencer.setSequence(sequence);
-        sequencer.setTempoFactor(2.0f);
+        //sequencer.setTempoFactor(2.0f);
         sequencer.setLoopCount(1000);
         sequencer.start();
         while (System.in.available() == 0) {
