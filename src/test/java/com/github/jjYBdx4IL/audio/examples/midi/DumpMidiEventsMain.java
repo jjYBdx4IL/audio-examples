@@ -13,7 +13,8 @@ import javax.sound.midi.Transmitter;
 public class DumpMidiEventsMain {
 
     public static void main(String[] args) throws Exception {
-        MidiDevice dev = DevSelUtils.getHwInDevice();
+        //MidiDevice dev = DevSelUtils.getHwInDevice();
+        MidiDevice dev = DevSelUtils.getMidiInDeviceByName(".*virmidi.*hw:1,0,0.*");
         Transmitter trans = dev.getTransmitter();
         trans.setReceiver(new MidiLoggerReceiver());
         dev.open();
